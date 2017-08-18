@@ -113,4 +113,37 @@ describe ArticlesCourses, type: :model do
       expect(ArticlesCourses.exists?(501)).to eq(true)
     end
   end
+
+  describe '#ores_before_and_after!' do
+    let(:course) { create(:course) }
+    let(:user) { create(:user) }
+    let!(:courses_user) { create(:courses_user, course: course, user: user) }
+    let(:article) do
+      create(:article, mw_page_id: 45010238, title: 'Manspreading', namespace: 0)
+    end
+    let!(:first_rev) do
+      create(:revision,
+             user: user,
+             date: course.start + 1.minute,
+             mw_rev_id: 641962088, # first revision, barely a stub
+             article: article,
+             mw_page_id: article.mw_page_id)
+    end
+    let!(:last_rev) do
+      create(:revision,
+             user: user,
+             date: course.start + 1.hour,
+             mw_rev_id: 675892696, # latest revision as of 2015-08-19
+             article: article,
+             mw_page_id: article.mw_page_id)
+    end
+    let(:articles_course) { create(:articles_course, course: course, article: article) }
+    it 'fetches wp10 scores that span the course and returns a pair of scores' do
+      VCR.use_cassette 'revision_scores/by_revisions' do
+        result = articles_course.ores_before_and_after!
+        expect(result[0]).to be_nil
+        expect(result[1]).to be > 0
+      end
+    end
+  end
 end

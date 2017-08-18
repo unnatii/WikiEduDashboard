@@ -14,6 +14,7 @@
 #
 
 require "#{Rails.root}/lib/utils"
+require "#{Rails.root}/lib/importers/revision_score_importer"
 
 #= ArticlesCourses is a join model between Article and Course.
 #= It represents a mainspace Wikipedia article that has been worked on by a
@@ -64,6 +65,27 @@ class ArticlesCourses < ActiveRecord::Base
     self.new_article = all_revisions.where(new_article: true).count.positive?
 
     save
+  end
+
+  # Returns the ORES wp10 scores from before the first revision and at the last.
+  # This represents the change in quality that happened during the course.
+  # Fetches data that is not already available.
+  def ores_before_and_after!
+    ordered_revisions = all_revisions.order('date ASC')
+
+    first_revision = ordered_revisions.first
+    if first_revision.wp10_previous.nil?
+      RevisionScoreImporter.update_wp10_previous(first_revision)
+      first_revision.reload
+    end
+
+    last_revision = ordered_revisions.last
+    if last_revision.wp10.nil?
+      RevisionScoreImporter.update_scores(last_revision)
+      last_revision.reload
+    end
+
+    [first_revision.wp10_previous, last_revision.wp10]
   end
 
   #################

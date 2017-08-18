@@ -11,8 +11,22 @@ class RevisionScoreImporter
   ################
   # Entry points #
   ################
+  def self.update_scores(revision)
+    return unless revision.wiki_id == en_wiki.id
+    new.update_revision_scores([revision])
+  end
+
+  def self.update_wp10_previous(revision)
+    return unless revision.wiki_id == en_wiki.id
+    new.update_wp10_previous(revision)
+  end
+
+  def self.en_wiki
+    @wiki ||= Wiki.find_by(language: 'en', project: 'wikipedia')
+  end
+
   def initialize
-    @wiki = Wiki.find_by(language: 'en', project: 'wikipedia')
+    @wiki = RevisionScoreImporter.en_wiki
     @ores_api = OresApi.new(@wiki)
   end
 
@@ -53,6 +67,18 @@ class RevisionScoreImporter
   ##################
   # Helper methods #
   ##################
+
+  def update_wp10_previous(revision)
+    parent_id = get_parent_id revision
+    return unless parent_id
+    ores_data = @ores_api.get_revision_data(parent_id)
+    score = extract_score ores_data
+    return unless score[parent_id.to_s]&.key?('probability')
+    probability = score[parent_id.to_s]['probability']
+    revision.wp10_previous = en_wiki_weighted_mean_score probability
+    revision.save
+  end
+
   private
 
   # This should take up to 50 rev_ids per batch
@@ -67,17 +93,6 @@ class RevisionScoreImporter
     end
     threads.each(&:join)
     save_scores(scores, features)
-  end
-
-  def update_wp10_previous(revision)
-    parent_id = get_parent_id revision
-    return unless parent_id
-    ores_data = @ores_api.get_revision_data(parent_id)
-    score = extract_score ores_data
-    return unless score[parent_id.to_s]&.key?('probability')
-    probability = score[parent_id.to_s]['probability']
-    revision.wp10_previous = en_wiki_weighted_mean_score probability
-    revision.save
   end
 
   def unscored_mainspace_userspace_and_draft_revisions

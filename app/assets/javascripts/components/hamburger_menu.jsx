@@ -131,9 +131,9 @@ const HamburgerMenu = React.createClass({
     }
     return (
       <div>
-        <nav>
+        <nav className="ham-nav">
           <div className="container">
-            <div className="top-nav__site-logo">
+            <div className="ham-nav__site-logo">
               <a className="logo__link" href= {this.props.rootUrl}>
                 <img src ={this.props.logoPath} alt = "wiki logo" />
               </a>

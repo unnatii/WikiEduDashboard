@@ -131,7 +131,7 @@ const HamburgerMenu = React.createClass({
     }
     return (
       <div>
-        <nav className = "top-nav">
+        <nav>
           <div className="container">
             <div className="top-nav__site-logo">
               <a className="logo__link" href= {this.props.rootUrl}>

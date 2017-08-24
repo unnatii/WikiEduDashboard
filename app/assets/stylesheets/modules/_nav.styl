@@ -213,7 +213,7 @@ nav.ham-nav
     height $nav_height
     display flex
     align-items center
-    justify-content space-around
+    justify-content flex-end
 
 .ham-nav__site-logo
   line-height 0
@@ -308,7 +308,7 @@ nav.profile-nav
 
 /* Position and sizing of burger button */
 .bm-burger-button {
-  position: absolute;
+  position: relative;
   width: 36px;
   height: 30px;
   right: 3%;
@@ -371,4 +371,6 @@ nav.profile-nav
       list-style none
   .ham-nav__site-logo
     line-height 0
-    margin-left -50%
+    position absolute
+    left 2%
+    top 4px

@@ -306,6 +306,22 @@ nav.profile-nav
 #highlight
   display none
 
+
+// burger menu stylings to be merged once finalised
+.bm-menu
+  a
+    text-decoration none
+    color #b8b7ad
+    font-weight 700
+  a:hover
+    color #676EB4
+.bm-item-list
+  background: #373a47;
+  text-align left
+  li
+    margin-left unset
+
+
 /* Position and sizing of burger button */
 .bm-burger-button {
   position: relative;
@@ -332,7 +348,7 @@ nav.profile-nav
 
 /* General sidebar styles */
 .bm-menu {
-  background: #fff;
+  background: #373a47;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
 }
@@ -349,8 +365,7 @@ nav.profile-nav
 
 /* Styling of overlay */
 .bm-overlay {
-  background: rgba(0, 0, 0, 0.3);
-  width: 400px !important;
+  overflow visible
 }
 
 .bm-menu-wrap {
@@ -371,5 +386,5 @@ nav.profile-nav
   .ham-nav__site-logo
     line-height 0
     position absolute
-    left 2%
-    top 4px
+    left 3%
+    bottom 10px

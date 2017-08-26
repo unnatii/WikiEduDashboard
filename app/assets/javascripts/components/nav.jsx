@@ -1,7 +1,6 @@
 import React from 'react';
 import CustomLink from './CustomLink.jsx';
 import HamburgerMenu from './hamburger_menu.jsx';
-
 const Nav = React.createClass({
   displayName: 'Nav',
 

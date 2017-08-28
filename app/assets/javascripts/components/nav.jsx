@@ -1,6 +1,7 @@
 import React from 'react';
 import CustomLink from './CustomLink.jsx';
 import HamburgerMenu from './hamburger_menu.jsx';
+import Uls from './uls_box.jsx';
 const Nav = React.createClass({
   displayName: 'Nav',
 
@@ -181,33 +182,43 @@ const Nav = React.createClass({
     } else {
       navClass = "top-nav";
     }
-    if (this.state.width < 500)
+    if (this.state.width < 920)
     {
+      if ($('.uls-trigger').length > 0) {
+        $('.ham-nav__site-logo').css({ "margin-left": '-34% ' });
+      }
+      else {
+        $('.ham-nav__site-logo').css({ "margin-left": '-54% ' });
+      }
       navBar = (
-        <HamburgerMenu
-          rootUrl = {this.state.rootUrl}
-          logoPath = {this.state.logoPath}
-          fluid = {this.state.fluid}
-          exploreclass = {this.state.exploreclass}
-          exploreurl = {this.state.exploreurl}
-          explorename = {this.state.explorename}
-          usersignedin = {this.state.usersignedin}
-          ifadmin = {this.state.ifadmin}
-          trainingurl = {this.state.trainingurl}
-          disableTraining = {this.state.disableTraining}
-          helpDisabled = {this.state.helpDisabled}
-          askUrl = {this.state.askUrl}
-          wikiEd = {this.state.wikiEd}
-          userPermissions = {this.state.userPermissions}
-          languageSwitcherEnabled = {this.state.languageSwitcherEnabled}
-          currentUser = {this.state.currentUser}
-          destroyUrl = {this.state.destroyUrl}
-          omniauthUrl = {this.state.omniauthUrl}
-        />
+        <div>
+          <Uls />
+          <HamburgerMenu
+            rootUrl = {this.state.rootUrl}
+            logoPath = {this.state.logoPath}
+            fluid = {this.state.fluid}
+            exploreclass = {this.state.exploreclass}
+            exploreurl = {this.state.exploreurl}
+            explorename = {this.state.explorename}
+            usersignedin = {this.state.usersignedin}
+            ifadmin = {this.state.ifadmin}
+            trainingurl = {this.state.trainingurl}
+            disableTraining = {this.state.disableTraining}
+            helpDisabled = {this.state.helpDisabled}
+            askUrl = {this.state.askUrl}
+            wikiEd = {this.state.wikiEd}
+            userPermissions = {this.state.userPermissions}
+            languageSwitcherEnabled = {this.state.languageSwitcherEnabled}
+            currentUser = {this.state.currentUser}
+            destroyUrl = {this.state.destroyUrl}
+            omniauthUrl = {this.state.omniauthUrl}
+          />
+        </div>
       );
     } else {
       navBar = (
         <div>
+          <Uls />
           <nav className= {navClass}>
             <div className="container">
               <div className="top-nav__site-logo">

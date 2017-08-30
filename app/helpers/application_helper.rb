@@ -21,12 +21,8 @@ module ApplicationHelper
     end
   end
 
-  def languageswitcherenabled
-    if Features.enable_language_switcher?
-      'true'
-    else
-      'false'
-    end
+  def language_switcher_enabled
+    Features.enable_language_switcher?.to_s
   end
 
   def logo_favicon_tag
